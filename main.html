@@ -1,0 +1,294 @@
+<!doctype html>
+<html>
+
+<head>
+	<title>互联网与AI科技公司发展知识图谱</title>
+	<link rel="stylesheet" href="style2.css">
+	<style type="text/css">
+		html,
+		body {
+			font: 16pt arial;
+			display: flex;
+			justify-content: space-between;
+			align-items: center;
+		}
+	</style>
+
+	<!-- FIXME: load from dist -->
+	<script type="text/javascript" src="../dist/neovis.js"></script>
+
+
+	<script src="https://code.jquery.com/jquery-3.2.1.min.js"
+		integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
+
+	<script type="text/javascript">
+		// define config car
+		// instantiate nodevis object
+		// draw
+
+
+		var viz;
+
+		function draw() {
+			var config = {
+				containerId: 'viz',
+				neo4j: {
+					serverUrl: 'neo4j://localhost:7687',
+					serverUser: 'neo4j',
+					serverPassword: '200595wzs'//我的天哪密码都被你知道了
+				},
+				visConfig: {
+					nodes: {
+						shape: 'square'
+					},
+					edges: {
+						arrows: {
+							to: { enabled: true }
+						}
+					},
+				},
+				labels: {
+					"company": {
+						"label": "gsmc",
+						"community": "community",
+						"font": {
+							"size": 30,
+							"color": "#606266"
+						},
+					},
+					"time": {
+						"label": "sjmc",
+						"community": "community",
+						"font": {
+							"size": 20,
+							"color": "#606266"
+						},
+					},
+					"industry": {
+						"label": "hymc",
+						"community": "community",
+						"font": {
+							"size": 15,
+							"color": "#606266"
+						},
+					},
+					"people": {
+						"label": "ppmc",
+						"community": "community",
+						"font": {
+							"size": 13,
+							"color": "#606266"
+						},
+					},
+					"product": {
+						"label": "cdmc",
+						"community": "community",
+						"font": {
+							"size": 13,
+							"color": "#606266"
+						},
+					},
+					"product2": {
+						"label": "mdmc",
+						"community": "community",
+						"font": {
+							"size": 13,
+							"color": "#606266"
+						},
+					}
+				},
+
+				relationships: {
+					"创始人": {
+						"thickness": "weight",
+						"caption": true,
+						[NeoVis.NEOVIS_ADVANCED_CONFIG]: {
+							function: {
+								title: NeoVis.objectToTitleHtml
+							},
+						}
+					},
+					"业务领域": {
+						value: 'weight',
+						[NeoVis.NEOVIS_ADVANCED_CONFIG]: {
+							function: {
+								title: NeoVis.objectToTitleHtml
+							},
+						}
+					},
+					"成立时间": {
+						value: 'weight',
+						[NeoVis.NEOVIS_ADVANCED_CONFIG]: {
+							function: {
+								title: NeoVis.objectToTitleHtml
+							},
+						}
+					},
+					"初代产品": {
+						value: 'weight',
+						[NeoVis.NEOVIS_ADVANCED_CONFIG]: {
+							function: {
+								title: NeoVis.objectToTitleHtml
+							},
+						}
+					},
+					"发展": {
+						value: 'weight',
+						[NeoVis.NEOVIS_ADVANCED_CONFIG]: {
+							function: {
+								title: NeoVis.objectToTitleHtml
+							},
+						}
+					},
+				},
+				initialCypher: 'MATCH (n)-[r]->(m) RETURN n,r,m'
+			};
+			//这些加了图谱就消失了，我也不知道为什么
+			// const data = {
+			// 	nodes: [
+			// 		{ id: '1', label: '谷歌搜索引擎' },
+			// 		// 其他节点
+			// 	],
+			// 	edges: [
+			// 		// 边的定义
+			// 	],
+			// };
+
+
+
+			// vis.onNodeHover((node) => {
+			// 	if (node.label === '谷歌搜索引擎') {
+			// 		const imageElement = document.createElement('img');
+			// 		imageElement.src = 'google1.jpg';
+			// 		// 设置图片样式、位置等属性，如：
+			// 		imageElement.style.width = '200px';
+
+			// 		// 将图片添加到页面中的某个元素上，如：
+			// 		const container = document.getElementById('imageContainer');
+			// 		container.innerHTML = ''; // 清空容器中的内容
+			// 		container.appendChild(imageElement); // 添加图片元素
+			// 	}
+			// });
+
+			viz = new NeoVis.default(config);
+			viz.render();
+			console.log(viz);
+
+		}
+		$(document).ready(function () {
+			$(".timeline-btn").click(function () {
+				var year = $(this).data("year");
+
+				var cypher = "MATCH p = () - [r: `成立时间`] -> ({ sjmc: '" + year + "' }) RETURN p";
+				$("#cypher").val(cypher);
+				viz.renderWithCypher(cypher);
+			});
+		});
+	</script>
+</head>
+
+<body onload="draw()">
+	<!-- <div id="imageContainer"></div> -->
+	<section id="cd-timeline" class="cd-container">
+		<div class="cd-timeline-block">
+			<div class="cd-timeline-img cd-picture">
+			</div>
+			<div class="cd-timeline-content">
+			</div>
+
+			<div class="cd-timeline-block">
+				<div class="cd-timeline-img cd-movie">
+					<button class="timeline-btn" data-year="1911年"></button>
+				</div> <!-- cd-timeline-img -->
+				<div class="cd-timeline-content">
+					<h2>1911</h2>
+				</div> <!-- cd-timeline-content -->
+			</div> <!-- cd-timeline-block -->
+
+			<div class="cd-timeline-block">
+				<div class="cd-timeline-img cd-picture">
+					<button class="timeline-btn" data-year="1975年"></button>
+				</div> <!-- cd-timeline-img -->
+				<div class="cd-timeline-content">
+					<h2>1975</h2>
+				</div> <!-- cd-timeline-content -->
+			</div> <!-- cd-timeline-block -->
+
+			<div class="cd-timeline-block">
+				<div class="cd-timeline-img cd-location">
+					<button class="timeline-btn" data-year="1976年"></button>
+				</div> <!-- cd-timeline-img -->
+				<div class="cd-timeline-content">
+					<h2>1976</h2>
+				</div> <!-- cd-timeline-content -->
+			</div> <!-- cd-timeline-block -->
+
+			<div class="cd-timeline-block">
+				<div class="cd-timeline-img cd-location">
+					<button class="timeline-btn" data-year="1998年"></button>
+				</div>
+				<div class="cd-timeline-content">
+					<h2>1998</h2>
+				</div> <!-- cd-timeline-content -->
+			</div> <!-- cd-timeline-block -->
+
+			<div class="cd-timeline-block">
+				<div class="cd-timeline-img cd-movie">
+					<button class="timeline-btn" data-year="1994年"></button>
+				</div> <!-- cd-timeline-img -->
+				<div class="cd-timeline-content">
+					<h2>1994</h2>
+				</div> <!-- cd-timeline-content -->
+			</div> <!-- cd-timeline-block -->
+
+			<div class="cd-timeline-block">
+				<div class="cd-timeline-img cd-picture">
+					<button class="timeline-btn" data-year="2004年"></button>
+				</div> <!-- cd-timeline-img -->
+				<div class="cd-timeline-content">
+					<h2>2004</h2>
+				</div> <!-- cd-timeline-content -->
+			</div> <!-- cd-timeline-block -->
+	</section> <!-- cd-timeline -->
+	<ul>
+		<li style="margin-top: 600px;">
+			<div id="viz"></div>
+		</li>
+		<li>
+			<div id="viz">
+				<h3>大模型解答</h3>
+			</div>
+		</li>
+	</ul>
+
+
+	Cypher query: <textarea rows="4" cols=50 id="cypher"></textarea><br>
+	<input type="submit" value="Submit" id="reload">
+	<input type="submit" value="Stabilize" id="stabilize">
+
+
+
+</body>
+
+<script>
+	$('#reload').click(function () {
+
+		var cypher = $('#cypher').val();
+
+		if (cypher.length > 3) {
+			viz.renderWithCypher(cypher);
+		} else {
+			console.log('reload');
+			viz.reload();
+
+		}
+
+	});
+
+	$('#stabilize').click(function () {
+		viz.stabilize();
+	});
+
+</script>
+
+</html>
